@@ -1,6 +1,8 @@
 // here we will implement the edges functions. 
 
 #include "edges.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 char createEdges(pnode *head){ 
@@ -9,7 +11,6 @@ char createEdges(pnode *head){
     
     char node;  
     node = getchar(); // expecting 'n' 
-    printf("%c", node); 
     if(node != 'n'){
         perror("invalid input");
         exit(1); 
@@ -19,7 +20,6 @@ char createEdges(pnode *head){
 
         int nodeNumber; // number of edge to insert in 
         scanf("%d", &nodeNumber);  
-        printf("we are now inserting edges into node number %d\n", nodeNumber); 
 
         int edgeTo, weight;  // the edge we are going to and it's weight
         char ch;       
@@ -32,12 +32,10 @@ char createEdges(pnode *head){
             getchar(); // ignore white space
             ch = getchar();  // get the char - it might be EOF or next command of n
             if(isCommand(ch)){
-                printf("move on to the next command");
                 return ch; 
             }
 
             if(ch == 'n'){ 
-                printf("Insert a new node\n"); 
                 break; 
             }
 
@@ -50,11 +48,7 @@ char createEdges(pnode *head){
                 weight = ch - '0';
                 edge[2] = weight; 
                 i-=1; 
-                printf("[%d,%d]\n",edge[0],edge[1]);
-                printf("try insert a new edge\n");
-
                 createTheEdges(edge,head); 
-                printGraph_cmd(head); 
                 
             } 
 
@@ -69,28 +63,38 @@ char createEdges(pnode *head){
 int createTheEdges(int arr[3],pnode *head){
     pnode curr= *head;
     pnode endpoint = *head; 
+    
 
 
     while(curr != NULL && curr->node_num != arr[0]){
+        if(curr->next==NULL){
+            printf("\n\n Error - supposed to be a node\n"); 
+            exit(1); 
+        }
         curr = curr->next;
     }
 
+
     while(endpoint->node_num != arr[1]){
+        if(endpoint->next==NULL){
+            printf("\n\n Error - supposed to be a node\n"); 
+            exit(1); 
+        }
         endpoint = endpoint->next; 
     }
-    
-    pedge currEdge = curr->edges; 
 
-    while (currEdge != NULL) {
-        currEdge = currEdge->next; 
+
+    while (curr->edges != NULL) {
+        if(curr->edges->next == NULL){
+            curr->edges = curr->edges->next; 
+            break;  
+        }
     }
 
-    currEdge = (pedge)malloc(sizeof(pedge)); 
-    currEdge->endpoint = endpoint;  
-    currEdge->weight = arr[2]; 
-    currEdge->next = NULL; 
-    
-
+    curr->edges = malloc(sizeof(pedge)); 
+    curr->edges->endpoint = endpoint;  
+    curr->edges->weight = arr[2]; 
+    curr->edges->next = NULL; 
 
 
     return 0; 

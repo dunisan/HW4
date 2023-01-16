@@ -24,7 +24,7 @@ typedef struct GRAPH_NODE_ {
 char build_graph_cmd(pnode *head);  // build the graph, a pointer to head of graph
 void insert_node_cmd(pnode *head);  // insert a new node. head is the pointer to the head of graph
 void delete_node_cmd(pnode *head);  // delete a node. 
-void printGraph_cmd(pnode *head); //for self debug
+void printGraph_cmd(pnode head); //for self debug
 void deleteGraph_cmd(pnode* head); // delete all of the graph 
 void shortsPath_cmd(pnode head);   // find the shortest path 
 void TSP_cmd(pnode head);   // t shortest path 

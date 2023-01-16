@@ -42,13 +42,12 @@ int isCommand(char ch){
 void createGraph(pnode *head, int n){
     
     pnode current = *head;
-
+    
     //  create a linked list with sizeOfgraph nodes. 
 
     for(int i=0; i<n; i++){
         current->edges = NULL;
         current->node_num = i; 
-        printf("node number %d \n", current->node_num); 
        
         if(i == n-1){
             break;
@@ -78,32 +77,23 @@ void createGraph(pnode *head, int n){
 
 //void insert_node_cmd(pnode *head);  // insert a new node. head is the pointer to the head of graph
 //void delete_node_cmd(pnode *head);  // delete a node. 
-void printGraph_cmd(pnode *head){
-    pnode current = *head; 
+void printGraph_cmd(pnode head){
 
-    printf("*******************************************************************************************************************\n");
-    while(current!=NULL){
-        pedge currEdge = current->edges; 
-
-        printf("node number %d ------------------->    " , current->node_num);
-        while(currEdge!=NULL){
-            printf("%d", currEdge->endpoint->node_num);
-            
-            if(currEdge->next==NULL){
-                break; 
-            } 
-
+    printf("Graph representation [src]---(weight)--->[dest]\n");
+    while (head != NULL)
+    {
+        pedge current_edge = head->edges;
+        if (current_edge == NULL)
+        {
+            printf("[%d]\n", head->node_num);
         }
-        printf("\n\n");
-        if(current->next == NULL){
-            break; 
+        while (current_edge != NULL)
+        {
+            printf("[%d]---(%d)--->[%d]\n", head->node_num, current_edge->weight, current_edge->endpoint->node_num);
+            current_edge = current_edge->next;
         }
-        current = current->next; 
-    
+        head = head->next;
     }
-
-    printf("********************************************************************************************************************\n");
-
 }
 //void deleteGraph_cmd(pnode* head); // delete all of the graph 
 //void shortsPath_cmd(pnode head);   // find the shortest path 
