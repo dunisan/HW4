@@ -12,7 +12,7 @@ int main(){
     char command; 
     scanf("%c", &command);
     while(command != (char)EOF){
-
+       // printf("%c\n", command);
         switch (command) {
                 case 'A': 
 
@@ -31,6 +31,7 @@ int main(){
                     //  shortsPath_cmd(pnode head);
                     continue;
                 case 'T': 
+
                     // TSP_cmd(pnode head);
                     continue;
                 default: 

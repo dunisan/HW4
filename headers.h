@@ -4,4 +4,4 @@
 #include "graph.h"
 
 
-int isCommand(char ch);
+int isCommand(char *ch);

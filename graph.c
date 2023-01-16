@@ -6,39 +6,45 @@
 #include "edges.h"
 
 
-#define WORD 4 
-// build the graph, a pointer to head of graph
 
-void createGraph(pnode *head, int n); // create grapg with n nodes 
+void createGraph(pnode *head, int n); // create graph with n nodes 
 
-/*
+/*************************************************
 Build the graph. 
 create n nodes and than insert all te given edges. 
-*/
+**************************************************/
+
 char build_graph_cmd(pnode *head){  
     
     // get the size of the graph 
     int sizeOfGraph = 0;  
     scanf("%d", &sizeOfGraph);
+
     //create graph with 'sizeOfGraph' nodes 
     createGraph(head, sizeOfGraph);
-    char command; 
-    command = createEdges(head); 
 
-    return command; 
+    char command; // the next command on graph 
+    command = createEdges(head);  
+
+    return command; // return the next command to go to (B,T,S,... )
     
 
 }
 
-int isCommand(char ch){
-    if(ch == 'A' || ch == 'B' || ch == 'T'){
+/*******************************************
+check if a given char is a type of a command
+******************************************/
+int isCommand(char *ch){
+    if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0 ){
         return 1;
     }
     return 0;
 }
 
 
-
+/****************************************
+create n nodes of the graph - linked list
+*********************************/
 void createGraph(pnode *head, int n){
     
     pnode current = *head;
@@ -62,24 +68,14 @@ void createGraph(pnode *head, int n){
 }
 
 
+/***************
+print the graph
+***************/
 
-
-
-
-
-
-
-
-
-
-
-
-
-//void insert_node_cmd(pnode *head);  // insert a new node. head is the pointer to the head of graph
-//void delete_node_cmd(pnode *head);  // delete a node. 
 void printGraph_cmd(pnode head){
-
-    printf("Graph representation [src]---(weight)--->[dest]\n");
+    printf("********************************************************\n");
+    printf("--------------------------------------------------------\n");
+    printf("Graph representation [src]--------(weight)------->[dest]\n\n");
     while (head != NULL)
     {
         pedge current_edge = head->edges;
@@ -89,12 +85,13 @@ void printGraph_cmd(pnode head){
         }
         while (current_edge != NULL)
         {
-            printf("[%d]---(%d)--->[%d]\n", head->node_num, current_edge->weight, current_edge->endpoint->node_num);
+            printf("[%d]---------(%d)--------->[%d]\n", head->node_num, current_edge->weight, current_edge->endpoint->node_num);
             current_edge = current_edge->next;
         }
         head = head->next;
     }
+    printf("\n---------------------------------------------------------\n");
+    printf("**********************************************************\n");
+
 }
-//void deleteGraph_cmd(pnode* head); // delete all of the graph 
-//void shortsPath_cmd(pnode head);   // find the shortest path 
-//void TSP_cmd(pnode head);   // t shortest path 
+

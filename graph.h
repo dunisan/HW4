@@ -16,7 +16,9 @@ typedef struct edge_ {
 typedef struct GRAPH_NODE_ {
     int node_num;   // the node number
     pedge edges;    // a pointer to list of the edges of each nodes 
+    pedge inedges; //
     struct GRAPH_NODE_ *next;   // the next node on the graph 
+
 } node, *pnode;
 
 
