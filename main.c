@@ -1,4 +1,6 @@
 #include "headers.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 int main(){
@@ -22,18 +24,20 @@ int main(){
 
     **********/ 
     
-    pnode headNode; 
+    pnode headNode = (pnode)malloc(sizeof(pnode));
+    
 
     printf("%p\n", &headNode);
     char command; 
-        
-    while(scanf("%c", &command)){
+    scanf("%c", &command);
+    while(command != (char)EOF){
 
         switch (command) {
                 case 'A': 
 
                     //deleteGraph_cmd(pnode* head);
-                     build_graph_cmd(&headNode);
+                    command = build_graph_cmd(&headNode);
+                    printf("main %d\n", headNode->node_num);
                     continue;
                 case 'B':  
                     //insert_node_cmd(pnode *head);
