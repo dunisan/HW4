@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "edges.h"
+#include "nodes.h"
 
 
 
@@ -106,4 +107,15 @@ void printGraph_cmd(pnode *head){
     printf("**********************************************************\n");
 
 }
+
+
+void delete_node_cmd(pnode *head){  // delete a node. 
+    printf("in delete\n");
+    int nodeNumber; 
+    scanf("%d", &nodeNumber);
+    remove_node(head, nodeNumber); 
+    printGraph_cmd(head);
+}
+
+
 

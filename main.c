@@ -15,10 +15,10 @@ int main(){
     char command; 
     scanf("%c", &command);
     while(command != (char)EOF){
-       // printf("%c\n", command);
+        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%c\n", command);
         switch (command) {
                 case 'A': 
-
+                    
                     //deleteGraph_cmd(pnode* head);
                     command = build_graph_cmd(&headNode);
                     printGraph_cmd(&headNode);
@@ -27,11 +27,9 @@ int main(){
                 case 'B':  
                     command = insert_node_cmd(&headNode);
                     printGraph_cmd(&headNode);
-                    break;
-
                     continue;
                 case 'D': 
-                    //delete_node_cmd(pnode *head);
+                    delete_node_cmd(&headNode);
                     continue;
                 case 'S': // exit the while loop
                     //  shortsPath_cmd(pnode head);

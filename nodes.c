@@ -1,6 +1,7 @@
 #include "headers.h"
 #include "edges.h" 
 #include "nodes.h"
+#include <stdio.h>
 #include <stdlib.h>
 // here we will implement the nodes functions
 
@@ -10,6 +11,8 @@ char insert_node_cmd(pnode *head){
     scanf("%d", &numberOfNode); 
 
     removeEdges(head,  numberOfNode);
+
+    
     createNewNode(head, numberOfNode);
 
     int destEdge, weight;  // the edge we are going to and it's weight
@@ -24,7 +27,7 @@ char insert_node_cmd(pnode *head){
 
         scanf("%s", ch);  // get the char - it might be EOF or next command of n
         
-
+        printf("check if command %s\n", ch);
         // return the new command 
         if(isCommand(ch)){
             return ch[0]; 
@@ -41,8 +44,11 @@ char insert_node_cmd(pnode *head){
             weight = atoi(ch);
             edge[2] = weight; 
             i-=1; 
-
+            
+            
             createTheEdges(edge,head); // create the new edge 
+
+            
             
         } 
 
@@ -54,6 +60,9 @@ void createNewNode(pnode *head, int numberOfNode){
     pnode current = *head;
 
     while(current->next != NULL){
+        if(current->node_num == numberOfNode){
+            return; 
+        }
         current = current->next; 
     } 
 
@@ -70,18 +79,30 @@ void createNewNode(pnode *head, int numberOfNode){
 } 
 
 
-// void remove_node(pnode *head, int n){
-//     pnode curr= *head; // find the source node
+void remove_node(pnode *head, int n){
+    pnode curr= *head; // find the source node
 
-//     // source node
-//     while(curr != NULL && curr->node_num != n){
-//         if(curr->next==NULL){
-//             return; 
-//         }
-//         curr = curr->next; //2, 3, 4, 5 
-//     }
+    // source node
+    while(curr != NULL && curr->node_num != n){
+        if(curr->next==NULL){
+            printf("Error - invalid node\n"); 
+            return;
+        }
+        curr = curr->next; //2, 3, 4, 5 
+    }
 
-//     //removeEdges(edges);
-//     free(curr);  
-// }
+    //removeEdges(edges);
+    free(curr);  
+    printGraph_cmd(head);
+}
 
+
+void printNodes(pnode *head){
+
+    pnode curr = *head; 
+    while(curr->next != NULL){
+        printf("[%d] ----  >", curr->node_num); 
+        curr = curr->next;
+    }
+    printf("[%d]\n", curr->node_num); 
+}

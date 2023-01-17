@@ -1,8 +1,10 @@
 // here we will implement the edges functions. 
 
 #include "edges.h"
+#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "nodes.h"
 
 /**********************************************
 The function parses output and create a node 
@@ -92,29 +94,32 @@ void createTheEdges(int arr[3],pnode *head){
         curr = curr->next; //2, 3, 4, 5 
     }
 
-
-    // destination node 
-    while(endpoint->node_num != arr[1]){
-        if(endpoint->next==NULL){
-            printf("\n\n Error - supposed to be a node\n"); 
+    
+    // go over to destination node  
+    while(endpoint != NULL && endpoint->node_num != arr[1]){
+        if(endpoint->next == NULL){
+            printf("Error - unvalid destination node\n"); 
             exit(1); 
         }
         endpoint = endpoint->next; 
     }
-                    
-    // if edges = null -> insert the first edge
-    if(curr->edges == NULL){
 
+
+    // if edges = null -> insert the first edge
+
+    if(curr->edges == NULL){
+        //create the new edge 
         pedge newedge = (pedge)malloc(sizeof(edge));
         newedge->next = NULL;
         newedge->endpoint = endpoint; 
         newedge->weight = arr[2]; 
 
-        curr->edges = newedge;
+        curr->edges = newedge; // insert the new edge 
         
 
         curr->edges->endpoint = endpoint;  
-   
+        
+        // insert into the distination node an inedge. 
         endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
         endpoint->inedges = curr->edges; 
 
@@ -141,44 +146,48 @@ void createTheEdges(int arr[3],pnode *head){
     // insert the new edge it the end of the edges. 
     temp->next = newedge; 
     
+    //printGraph_cmd(head);
+    
  
     return; 
 }
 
 
 void removeEdges(pnode *head, int number){
-      pnode curr= *head; // find the source node
-    // source node
-    while(curr != NULL && curr->node_num != number){
-        if(curr->next==NULL){
-            return; 
-        }
-        curr = curr->next; 
+    
+    pnode curr= *head; // find the source node
 
-        
+    if(curr == NULL){
+        return; 
+    }
+    
+    // source node
+    while(curr->next != NULL && curr->node_num != number){
+        curr = curr->next; 
     }
 
-  
+    // their isnt the wanted node
+    if(curr->node_num != number){
+        return; 
+    }
+
+    // their is no edges for the node 
     if(curr->edges == NULL){
         return;
     }
 
-    while(curr->edges != NULL){
-         
-        printf("DD\n");
-/**********************************
-
-freeing up memory!!!!!!!!!!!!!!!!
-
-**********************************/
-         
-        free(curr->edges->endpoint); 
-        //free(curr->edges);
-        curr = curr->next;  
-
-        printf("DD\n");
-        curr = curr->next; 
-    }
+    // free all edges of the current node
+    pedge tempedge = curr->edges; 
     curr->edges = NULL;
+    while(tempedge->next != NULL){
+         
+        free(tempedge); 
+        tempedge = tempedge->next; 
+
+    }
+    printNodes(head);
+    printGraph_cmd(head);
+    return;
+    
 
 }
