@@ -89,8 +89,9 @@ void createTheEdges(int arr[3],pnode *head){
             printf("\n\n Error - supposed to be a node\n"); 
             exit(1); 
         }
-        curr = curr->next;
+        curr = curr->next; //2, 3, 4, 5 
     }
+
 
     // destination node 
     while(endpoint->node_num != arr[1]){
@@ -100,13 +101,23 @@ void createTheEdges(int arr[3],pnode *head){
         }
         endpoint = endpoint->next; 
     }
-
+                    
     // if edges = null -> insert the first edge
     if(curr->edges == NULL){
-        curr->edges = malloc(sizeof(pedge)); 
+
+        pedge newedge = (pedge)malloc(sizeof(edge));
+        newedge->next = NULL;
+        newedge->endpoint = endpoint; 
+        newedge->weight = arr[2]; 
+
+        curr->edges = newedge;
+        
+
         curr->edges->endpoint = endpoint;  
-        curr->edges->weight = arr[2]; 
-        curr->edges->next = NULL;
+   
+        endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
+        endpoint->inedges = curr->edges; 
+
 
         return; 
     }
@@ -129,7 +140,45 @@ void createTheEdges(int arr[3],pnode *head){
     
     // insert the new edge it the end of the edges. 
     temp->next = newedge; 
+    
  
     return; 
 }
 
+
+void removeEdges(pnode *head, int number){
+      pnode curr= *head; // find the source node
+    // source node
+    while(curr != NULL && curr->node_num != number){
+        if(curr->next==NULL){
+            return; 
+        }
+        curr = curr->next; 
+
+        
+    }
+
+  
+    if(curr->edges == NULL){
+        return;
+    }
+
+    while(curr->edges != NULL){
+         
+        printf("DD\n");
+/**********************************
+
+freeing up memory!!!!!!!!!!!!!!!!
+
+**********************************/
+         
+        free(curr->edges->endpoint); 
+        //free(curr->edges);
+        curr = curr->next;  
+
+        printf("DD\n");
+        curr = curr->next; 
+    }
+    curr->edges = NULL;
+
+}

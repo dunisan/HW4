@@ -1,6 +1,9 @@
 #include "headers.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "nodes.h"
+#include "edges.h"
+#include "graph.h"
 
 
 int main(){
@@ -18,11 +21,14 @@ int main(){
 
                     //deleteGraph_cmd(pnode* head);
                     command = build_graph_cmd(&headNode);
-                    printGraph_cmd(headNode);
+                    printGraph_cmd(&headNode);
 
                     continue;
                 case 'B':  
-                    //insert_node_cmd(pnode *head);
+                    command = insert_node_cmd(&headNode);
+                    printGraph_cmd(&headNode);
+                    break;
+
                     continue;
                 case 'D': 
                     //delete_node_cmd(pnode *head);

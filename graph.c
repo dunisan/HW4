@@ -72,23 +72,35 @@ void createGraph(pnode *head, int n){
 print the graph
 ***************/
 
-void printGraph_cmd(pnode head){
+void printGraph_cmd(pnode *head){
     printf("********************************************************\n");
     printf("--------------------------------------------------------\n");
     printf("Graph representation [src]--------(weight)------->[dest]\n\n");
-    while (head != NULL)
+    
+    pnode curr = *head;
+ 
+    while (curr != NULL)
     {
-        pedge current_edge = head->edges;
+        /************ NEVER BREAKS ************/ 
+
+        pedge current_edge = curr->edges;
         if (current_edge == NULL)
         {
-            printf("[%d]\n", head->node_num);
+            printf("[%d]\n", curr->node_num);
+
         }
+
         while (current_edge != NULL)
         {
-            printf("[%d]---------(%d)--------->[%d]\n", head->node_num, current_edge->weight, current_edge->endpoint->node_num);
+            printf("[%d]---------(%d)--------->[%d]\n", curr->node_num, current_edge->weight, current_edge->endpoint->node_num);
             current_edge = current_edge->next;
+
+
         }
-        head = head->next;
+
+        curr = curr->next; 
+
+        
     }
     printf("\n---------------------------------------------------------\n");
     printf("**********************************************************\n");
