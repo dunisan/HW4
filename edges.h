@@ -4,4 +4,6 @@
 
 char createEdges(pnode *head); // function that pares input and prepares the create of edges
 void createTheEdges(int arr[3], pnode *head);  // creats the edges 
-void removeEdges(pnode *head, int number); 
+void removeEdges(pnode *head, int number);
+void removeInedges(pnode *head, int n);
+

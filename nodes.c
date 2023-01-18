@@ -1,6 +1,8 @@
+#include "graph.h"
 #include "headers.h"
 #include "edges.h" 
 #include "nodes.h"
+//#include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
 // here we will implement the nodes functions
@@ -57,6 +59,7 @@ char insert_node_cmd(pnode *head){
 
 void createNewNode(pnode *head, int numberOfNode){
 
+
     pnode current = *head;
 
     while(current->next != NULL){
@@ -72,7 +75,8 @@ void createNewNode(pnode *head, int numberOfNode){
     current->edges = NULL;
     current->node_num = numberOfNode; 
  
-
+    printf("$!!!!!!!!!!!!!\n\n");
+    printGraph_cmd(head);
     
 
     return; 
@@ -80,19 +84,46 @@ void createNewNode(pnode *head, int numberOfNode){
 
 
 void remove_node(pnode *head, int n){
+    printf("\n\n\n start of remove node \n\n\n");
+    printGraph_cmd(head);
+    
     pnode curr= *head; // find the source node
 
-    // source node
-    while(curr != NULL && curr->node_num != n){
-        if(curr->next==NULL){
-            printf("Error - invalid node\n"); 
-            return;
+    // the node to delete is the first 
+    if(curr->node_num == n){
+
+        // check if their is a next node
+        if(curr->next != NULL){
+            *head = (*head)->next;
         }
-        curr = curr->next; //2, 3, 4, 5 
+        else{
+            *head = NULL; 
+            free(*head); 
+            return; 
+        }
     }
 
-    //removeEdges(edges);
-    free(curr);  
+    // the node is not first 
+
+    while(curr->next != NULL){
+        if(curr->next->node_num == n){
+          //  printf("%d\n", curr->next->node_num);
+            if(curr->next->next != NULL){
+                free(curr->next); 
+                curr->next = curr->next->next;
+                return;
+            }
+            else{
+                free(curr->next);
+                curr->next = NULL; 
+                return; 
+            }
+        }
+        printf("4\n");
+        curr = curr->next; 
+    }
+
+    printf("Error - the node doesn't exits\n");  
     printGraph_cmd(head);
 }
 
@@ -106,3 +137,5 @@ void printNodes(pnode *head){
     }
     printf("[%d]\n", curr->node_num); 
 }
+
+

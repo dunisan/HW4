@@ -81,7 +81,6 @@ create a new node
 
 
 void createTheEdges(int arr[3],pnode *head){
-
     pnode curr= *head; // find the source node
     pnode endpoint = *head;  // find the destination node 
     
@@ -120,8 +119,10 @@ void createTheEdges(int arr[3],pnode *head){
         curr->edges->endpoint = endpoint;  
         
         // insert into the distination node an inedge. 
-        endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
-        endpoint->inedges = curr->edges; 
+        // endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
+        // endpoint->inedges = curr->edges; 
+        //     endpoint->inedges->endpoint = curr;
+
 
 
         return; 
@@ -145,8 +146,12 @@ void createTheEdges(int arr[3],pnode *head){
     
     // insert the new edge it the end of the edges. 
     temp->next = newedge; 
+
+    // endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
+    // endpoint->inedges = curr->edges; 
+    // endpoint->inedges->endpoint = curr;
     
-    //printGraph_cmd(head);
+    printGraph_cmd(head);
     
  
     return; 
@@ -154,7 +159,6 @@ void createTheEdges(int arr[3],pnode *head){
 
 
 void removeEdges(pnode *head, int number){
-    
     pnode curr= *head; // find the source node
 
     if(curr == NULL){
@@ -187,7 +191,69 @@ void removeEdges(pnode *head, int number){
     }
     printNodes(head);
     printGraph_cmd(head);
+    
     return;
     
+
+}
+
+void removeInedges(pnode *head, int n){
+    pnode tempnode = *head; 
+
+    while(tempnode->next != NULL){
+
+        // if the current node is the node that we are deleting(no edges to itself)
+
+        if(tempnode->node_num  == n){
+            tempnode = tempnode->next;
+            continue;
+        }
+
+        pedge tempedge = tempnode->edges; 
+        
+        // if no edges - continue to the next node
+        if(tempedge == NULL){
+            tempnode = tempnode->next;
+            continue;
+        }
+
+        /*****************************************************************
+         pass over the edges and search to a edge that his endpoint.nodenum is n
+         if their is so tell the prev node to pint to the next.
+         *****************************************************************/
+
+        // if the first edge goes to n 
+        if(tempedge->endpoint->node_num == n){
+            tempnode->edges = tempnode->edges->next;
+            free(tempedge);
+            continue; // to the next node; 
+        }
+
+        // the edge might be in the middle
+        while (tempedge->next != NULL) {
+            if(tempedge->next->endpoint->node_num == n){
+
+                // if their is a next node 
+                if(tempedge->next->next != NULL){
+                    tempedge->next = tempedge->next->next;
+                }
+                else {
+                    tempedge->next = NULL; 
+                }
+
+                free(tempedge->next);
+                continue; // found the edge - no need to go the next edge  
+            }
+
+            tempedge = tempedge->next;
+        }
+
+        tempnode = tempnode->next; 
+
+        // clear the last
+    }
+
+    printf("pathed over all nodes and edges\n"); 
+
 
 }

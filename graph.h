@@ -17,7 +17,7 @@ typedef struct GRAPH_NODE_ {
     int node_num;   // the node number
     pedge edges;    // a pointer to list of the edges of each nodes 
     struct GRAPH_NODE_ *next;   // the next node on the graph 
-    pedge inedges; //
+    //pedge inedges; //
 
 
 } node, *pnode;
@@ -29,6 +29,6 @@ void delete_node_cmd(pnode *head);  // delete a node.
 void printGraph_cmd(pnode *head); //for self debug
 void deleteGraph_cmd(pnode* head); // delete all of the graph 
 void shortsPath_cmd(pnode head);   // find the shortest path 
-void TSP_cmd(pnode head);   // t shortest path 
+void TSP_cmd(pnode head);   // t shortest path
 
 #endif

@@ -15,7 +15,6 @@ int main(){
     char command; 
     scanf("%c", &command);
     while(command != (char)EOF){
-        printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!%c\n", command);
         switch (command) {
                 case 'A': 
                     
@@ -24,6 +23,7 @@ int main(){
                     printGraph_cmd(&headNode);
 
                     continue;
+
                 case 'B':  
                     command = insert_node_cmd(&headNode);
                     printGraph_cmd(&headNode);

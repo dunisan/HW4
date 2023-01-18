@@ -5,6 +5,7 @@
 #include <string.h>
 #include "edges.h"
 #include "nodes.h"
+#include <unistd.h>
 
 
 
@@ -36,9 +37,10 @@ char build_graph_cmd(pnode *head){
 check if a given char is a type of a command
 ******************************************/
 int isCommand(char *ch){
-    if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0 ){
+    if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0  || strcmp(ch, "D") == 0){
         return 1;
     }
+
     return 0;
 }
 
@@ -63,7 +65,6 @@ void createGraph(pnode *head, int n){
         current = current->next; 
 
     }
-         
    
     return; 
 }
@@ -77,14 +78,14 @@ void printGraph_cmd(pnode *head){
     printf("********************************************************\n");
     printf("--------------------------------------------------------\n");
     printf("Graph representation [src]--------(weight)------->[dest]\n\n");
-    
+
     pnode curr = *head;
  
     while (curr != NULL)
     {
-        /************ NEVER BREAKS ************/ 
 
         pedge current_edge = curr->edges;
+
         if (current_edge == NULL)
         {
             printf("[%d]\n", curr->node_num);
@@ -93,12 +94,11 @@ void printGraph_cmd(pnode *head){
 
         while (current_edge != NULL)
         {
+
             printf("[%d]---------(%d)--------->[%d]\n", curr->node_num, current_edge->weight, current_edge->endpoint->node_num);
             current_edge = current_edge->next;
 
-
         }
-
         curr = curr->next; 
 
         
@@ -113,8 +113,17 @@ void delete_node_cmd(pnode *head){  // delete a node.
     printf("in delete\n");
     int nodeNumber; 
     scanf("%d", &nodeNumber);
+
+    // remove the inedges, edges and node.
+    removeInedges(head, nodeNumber);
+    printf("1\n"); 
+    removeEdges(head, nodeNumber);
+    printf("2\n");
     remove_node(head, nodeNumber); 
+    printf("3\n"); 
     printGraph_cmd(head);
+
+    printf("end of delete_node_cmd\n"); 
 }
 
 
