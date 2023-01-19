@@ -30,8 +30,7 @@ char build_graph_cmd(pnode *head);  // build the graph, a pointer to head of gra
 void delete_node_cmd(pnode *head);  // delete a node. 
 void printGraph_cmd(pnode *head); //for self debug
 void deleteGraph_cmd(pnode* head); // delete all of the graph 
-int shortestPath_cmd(pnode head);   // find the shortest path 
-pnode dijkasraNextNodeToCheck(pnode head);
-void TSP_cmd(pnode head);   // t shortest path
+void createGraph(pnode *head, int n); // create graph with n nodes 
+
 
 #endif

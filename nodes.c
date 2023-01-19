@@ -1,10 +1,5 @@
-#include "graph.h"
 #include "headers.h"
-#include "edges.h" 
-#include "nodes.h"
-//#include <cstddef>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 
 /***************************************
@@ -29,7 +24,7 @@ void insert_node_cmd(pnode *head){
 
 
 /******************************************
-If node does not exists - create a new one
+    CREATE A NEW NODE - if needed
 *******************************************/
 
 void createNewNode(pnode *head, int numberOfNode){
@@ -59,30 +54,35 @@ void createNewNode(pnode *head, int numberOfNode){
     return; 
 } 
 
-
+/***************************************
+            REMOVE A NODE
+****************************************/
 void remove_node(pnode *head, int n){
     
     pnode curr= *head; // find the source node
 
     // the node to delete is the first 
-    if(curr->node_num == n){
-
+    if(curr->node_num == n)
+    {
         // check if their is a next node
-        if(curr->next != NULL){
+        if(curr->next != NULL)
+        {
+            free(*head);
             *head = (*head)->next;
         }
         else{
-            *head = NULL; 
             free(*head); 
+            *head = NULL; 
             return; 
         }
     }
 
     // the node is not first 
-
-    while(curr->next != NULL){
-        if(curr->next->node_num == n){
-          //  printf("%d\n", curr->next->node_num);
+    
+    while(curr->next != NULL)
+    {
+        if(curr->next->node_num == n)
+        {
             if(curr->next->next != NULL){
                 free(curr->next); 
                 curr->next = curr->next->next;
@@ -94,16 +94,14 @@ void remove_node(pnode *head, int n){
                 return; 
             }
         }
-        curr = curr->next;
-
-        if(curr->next == NULL){
-            return;
-        } 
+        curr = curr->next; 
     }
-
-    printf("Error - the node doesn't exits\n");  
 }
 
+
+/****************************
+    PRINT LIST OF NODES
+****************************/
 
 void printNodes(pnode *head){
 

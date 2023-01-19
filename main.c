@@ -1,22 +1,16 @@
 #include "headers.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include "nodes.h"
-#include "edges.h"
-#include "graph.h"
-#include <unistd.h>
+
 
 
 int main(){
 
 
-    pnode headNode = NULL;// (pnode)malloc(sizeof(pnode)); 
+    pnode headNode = NULL;
     
     char command; 
     scanf("%c", &command); 
 
-    while(command != (char)EOF){
-        printf("%c\n", command);
+    while(!feof(stdin)){
 
         switch (command) {
                 case 'A': 
@@ -38,12 +32,12 @@ int main(){
 
                     continue;
                 case 'S': // exit the while loop
-                    command = shortestPath_cmd(headNode);
+                    shortestPath_cmd(headNode);
                     scanf(" %c", &command);
                     continue;
                 case 'T': 
-                    exit(1);
                     // TSP_cmd(pnode head);
+                    exit(1);
                     continue;
                 default: 
                     free(headNode); 

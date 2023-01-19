@@ -1,4 +1,4 @@
-#include "headers.h"
+#include "graph.h"
 
 
 
@@ -6,4 +6,6 @@ char createEdges(pnode *head); // function that pares input and prepares the cre
 void createNewEdge(int arr[3], pnode *head);  // creats the edges 
 void removeEdges(pnode *head, int number);
 void removeInedges(pnode *head, int n);
+int isCommand(char ch);
+
 

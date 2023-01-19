@@ -1,10 +1,6 @@
 // here we will implement the edges functions. 
 
-#include "edges.h"
-#include "graph.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include "nodes.h"
+#include "headers.h"
 
 /**********************************************
 The function parses output and create a node 
@@ -228,4 +224,20 @@ void removeInedges(pnode *head, int n){
     printf("pathed over all nodes and edges\n"); 
 
 
+}
+
+
+/*******************************************
+check if a given char is a type of a command
+******************************************/
+int isCommand(char ch){
+  //  if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0  || strcmp(ch, "D") == 0 ){
+    if(ch == 'T' || ch == 'B' || ch == 'S' || ch == 'D' || ch == 'A')
+    {
+        return 1;
+    }
+ 
+    
+
+    return 0;
 }

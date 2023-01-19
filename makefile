@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS = -Wall
-SOURCES = graph.c main.c edges.c nodes.c
-HEADERS = graph.h  headers.h edges.h nodes.h
+SOURCES = graph.c main.c edges.c nodes.c algo.c
+HEADERS = graph.h  headers.h edges.h nodes.h algo.h
 OBJS = $(SOURCES:.c=.o)
 
 all: graph
