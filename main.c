@@ -46,7 +46,7 @@ int main(){
                     continue;
                 default: 
                     free(headNode); 
-                    exit(0); 
+                    exit(1); 
             }
     }
 
