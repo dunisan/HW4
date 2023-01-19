@@ -38,10 +38,14 @@ void createGraph(pnode *head, int n){
 
     // create the head of the graph
 
-    (*head) = (malloc(sizeof(pnode))); 
+
+    
+    (*head) = (pnode )(malloc(sizeof(node))); 
     (*head)->edges = NULL; 
     (*head)->node_num = 0; 
-
+    (*head)->next = NULL;
+    (*head)->pathDistance = 0; 
+    (*head)->visited = 0;
 
     pnode current = *head;
     
@@ -49,9 +53,10 @@ void createGraph(pnode *head, int n){
     for(int i=0; i<n-1; i++)
     {
 
-        current->next = (pnode)malloc(sizeof(pnode)); 
+        current->next = (pnode)malloc(sizeof(node)); 
         current->next->edges = NULL;
         current->next->node_num = i+1; 
+        current->next->next = NULL; 
         
         current = current->next; 
     }

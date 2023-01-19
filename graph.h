@@ -19,10 +19,10 @@ typedef struct GRAPH_NODE_ {
     struct GRAPH_NODE_ *next;   // the next node on the graph 
     int visited; 
     int pathDistance; 
-    //pedge inedges; //
 
 
 } node, *pnode;
+
 
 
 

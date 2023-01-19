@@ -81,7 +81,7 @@ void createNewNode(pnode *head, int numberOfNode){
     }
     else
     {
-        current->next = (pnode)malloc(sizeof(pnode)); 
+        current->next = (pnode)malloc(sizeof(node)); 
         current->next->edges = NULL;
         current->next->node_num = numberOfNode; 
  
@@ -95,6 +95,10 @@ void createNewNode(pnode *head, int numberOfNode){
 ****************************************/
 void remove_node(pnode *head, int n){
     
+    // if(*head == NULL){
+    //     return ;
+    // }
+
     pnode curr= *head; // find the source node
             
 
@@ -105,15 +109,14 @@ void remove_node(pnode *head, int n){
         if(curr->next != NULL)
         {
 
-            pnode *temp = &curr->next;
-           // head = NULL;
-            free(*head);
-            *head = *temp;
+            pnode temp = curr->next;
+            free(curr);
+            *head =temp;  
         }
         else{
 
-           // head = NULL; 
-            free(*head); 
+              free(curr);
+             *head = NULL; 
 
             return; 
         }
@@ -127,18 +130,17 @@ void remove_node(pnode *head, int n){
         if(curr->next->node_num == n)
         {
             if(curr->next->next != NULL){
-                pnode *temp = &curr->next->next; 
-                curr->next = NULL;
-
+                pnode temp = curr->next->next; 
                 free(curr->next); 
-                curr->next = *temp; 
+                curr->next = temp; 
 
                 return;
             }
             else{
 
-                curr->next = NULL;
+                
                 free(curr->next);
+                curr->next = NULL;
                 return; 
             }
         }
