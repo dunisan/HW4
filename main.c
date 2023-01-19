@@ -50,6 +50,7 @@ int main(){
                     break;
             }
     }
+    printGraph_cmd(&headNode);
     deleteGraph_cmd(&headNode); 
     return 0; 
 }

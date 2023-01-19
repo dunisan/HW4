@@ -38,7 +38,7 @@ void createGraph(pnode *head, int n){
 
     // create the head of the graph
 
-    (*head) = (pnode)(malloc(sizeof(pnode))); 
+    (*head) = (malloc(sizeof(pnode))); 
     (*head)->edges = NULL; 
     (*head)->node_num = 0; 
 

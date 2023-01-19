@@ -106,13 +106,13 @@ void remove_node(pnode *head, int n){
         {
 
             pnode *temp = &curr->next;
-            *head = NULL;
+           // head = NULL;
             free(*head);
             *head = *temp;
         }
         else{
 
-            *head = NULL; 
+           // head = NULL; 
             free(*head); 
 
             return; 
