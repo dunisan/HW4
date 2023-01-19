@@ -26,6 +26,7 @@ char build_graph_cmd(pnode *head){
     createGraph(head, sizeOfGraph);
 
     char command; // the next command on graph 
+
     command = createEdges(head);  
 
     return command; // return the next command to go to (B,T,S,... )
@@ -33,37 +34,31 @@ char build_graph_cmd(pnode *head){
 
 }
 
-/*******************************************
-check if a given char is a type of a command
-******************************************/
-int isCommand(char *ch){
-    if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0  || strcmp(ch, "D") == 0){
-        return 1;
-    }
-
-    return 0;
-}
 
 
 /****************************************
 create n nodes of the graph - linked list
 *********************************/
 void createGraph(pnode *head, int n){
-    
+
+    // create the head of the graph
+
+    (*head) = (pnode)(malloc(sizeof(pnode))); 
+    (*head)->edges = NULL; 
+    (*head)->node_num = 0; 
+
+
     pnode current = *head;
     
-    //  create a linked list with sizeOfgraph nodes. 
+     //  create a linked list with sizeOfgraph nodes. 
+    for(int i=0; i<n-1; i++)
+    {
 
-    for(int i=0; i<n; i++){
-        current->edges = NULL;
-        current->node_num = i; 
-       
-        if(i == n-1){
-            break;
-        }    
         current->next = (pnode)malloc(sizeof(pnode)); 
+        current->next->edges = NULL;
+        current->next->node_num = i+1; 
+        
         current = current->next; 
-
     }
    
     return; 
@@ -110,21 +105,113 @@ void printGraph_cmd(pnode *head){
 
 
 void delete_node_cmd(pnode *head){  // delete a node. 
-    printf("in delete\n");
+   
     int nodeNumber; 
     scanf("%d", &nodeNumber);
 
-    // remove the inedges, edges and node.
-    removeInedges(head, nodeNumber);
-    printf("1\n"); 
-    removeEdges(head, nodeNumber);
-    printf("2\n");
-    remove_node(head, nodeNumber); 
-    printf("3\n"); 
-    printGraph_cmd(head);
+    // remove the inedges, edges and node
 
-    printf("end of delete_node_cmd\n"); 
+    removeInedges(head, nodeNumber);
+    removeEdges(head, nodeNumber);
+    remove_node(head, nodeNumber); 
+
+    return;
+
+}
+
+
+int shortestPath_cmd(pnode head)
+{
+
+    printf("start of shortest path\n");
+    int sourceNode, destinationNode; 
+    scanf("%d %d", &sourceNode, &destinationNode); 
+    pnode source;
+    pnode dest;
+    pnode current = head;
+
+    // find the source node and the distination node && Initialize all nodes.pathDistance and node.visited 
+    while (current != NULL)
+    {
+        current->pathDistance = __INT_MAX__; // initialize every node to be with max distance 
+        current->visited = 0;       // initialize every node to be 'not visited' 
+
+
+        if (current->node_num == sourceNode){
+            source = current; // this is the source node 
+            source->pathDistance = 0;   // This is the distance from the source (itself)
+        }
+        else if (current->node_num == destinationNode){
+            dest = current; // this is the destination node. 
+        }
+        current = current->next;     
+    }
+
+
+    // dijkstra
+
+    current = source; // point to the souce node 
+    while (current)
+    {
+        current->visited = 1; // mark the current edge as visited. 
+        pedge currentEdge = current->edges; // point to the first edge of node 
+
+        // pass all edges and update the path distance of endpoint if needed 
+        while (currentEdge != NULL){
+
+            // if we found a shorter length to the next endpoint of every node so update the endpoint pathDistance
+            if (!currentEdge->endpoint->visited && current->pathDistance + currentEdge->weight < currentEdge->endpoint->pathDistance)
+            {
+                currentEdge->endpoint->pathDistance = current->pathDistance + currentEdge->weight;
+            }
+            currentEdge = currentEdge->next;
+        }
+        // go to the next min node .
+        current = dijkasraNextNodeToCheck(head);
+    }
+    
+    if (dest->pathDistance == __INT_MAX__)
+    {
+        dest->pathDistance = -1;
+    }
+
+    printf(" the shortest [ath %d\n", dest->pathDistance);
+    return dest->pathDistance;
+}
+
+
+pnode dijkasraNextNodeToCheck(pnode head)
+{
+    int min = __INT_MAX__;
+    pnode temp = NULL;
+    while (head)
+    {
+        if (!head->visited && head->pathDistance < min)
+        {
+            min = head->pathDistance;
+            temp = head;
+        }
+        head = head->next;
+    }
+    return temp;
 }
 
 
 
+
+
+
+/*******************************************
+check if a given char is a type of a command
+******************************************/
+int isCommand(char ch){
+  //  if(strcmp(ch, "T") == 0 || strcmp(ch, "B") == 0  || strcmp(ch, "S") == 0  || strcmp(ch, "D") == 0 ){
+    if(ch == 'T' || ch == 'B' || ch == 'S' || ch == 'D' || ch == 'A')
+    {
+        return 1;
+    }
+ 
+    
+
+    return 0;
+}

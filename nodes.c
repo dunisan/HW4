@@ -5,62 +5,38 @@
 //#include <cstddef>
 #include <stdio.h>
 #include <stdlib.h>
-// here we will implement the nodes functions
 
-char insert_node_cmd(pnode *head){
 
-    int numberOfNode; 
-    scanf("%d", &numberOfNode); 
+/***************************************
+           INSERT A NEW NODE
+***************************************/
+void insert_node_cmd(pnode *head){
 
+    int numberOfNode, destinationNode, weight; 
+    scanf("%d %d %d", &numberOfNode, &destinationNode, &weight); 
+   
+    int edge[3] = {numberOfNode,destinationNode,weight};  // the source node, destination node, and the weight of edge  
+           
     removeEdges(head,  numberOfNode);
-
-    
     createNewNode(head, numberOfNode);
-
-    int destEdge, weight;  // the edge we are going to and it's weight
-        
-    int i=0;   
-    int edge[3];   // the source node, destination node, and the weight of edge 
-    char ch[20];
-    edge[0] = numberOfNode; 
-
-    // get all edges of specific node 
-    while(1){ 
-
-        scanf("%s", ch);  // get the char - it might be EOF or next command of n
-        
-        printf("check if command %s\n", ch);
-        // return the new command 
-        if(isCommand(ch)){
-            return ch[0]; 
-        }
-        
-                    
-        // get a desination node and the weight of the node
-        if(i%2==0){
-            destEdge = atoi(ch); // conver num to int
-            edge[1] = destEdge;    
-            i+=1;      
-        }
-        else{
-            weight = atoi(ch);
-            edge[2] = weight; 
-            i-=1; 
-            
-            
-            createTheEdges(edge,head); // create the new edge 
+    
+    createNewEdge(edge,head); // create the new edge 
 
             
-            
-        } 
-
-    }
+    return;
+    
 }
+
+
+/******************************************
+If node does not exists - create a new one
+*******************************************/
 
 void createNewNode(pnode *head, int numberOfNode){
 
-
     pnode current = *head;
+
+    // check if their is the node. if not - insert a new; 
 
     while(current->next != NULL){
         if(current->node_num == numberOfNode){
@@ -68,24 +44,23 @@ void createNewNode(pnode *head, int numberOfNode){
         }
         current = current->next; 
     } 
-
-    
-    current->next = (pnode)malloc(sizeof(pnode)); 
-    
-    current->edges = NULL;
-    current->node_num = numberOfNode; 
+    if(current->node_num == numberOfNode)
+    {
+        return; 
+    }
+    else
+    {
+        current->next = (pnode)malloc(sizeof(pnode)); 
+        current->next->edges = NULL;
+        current->next->node_num = numberOfNode; 
  
-    printf("$!!!!!!!!!!!!!\n\n");
-    printGraph_cmd(head);
+    }
     
-
     return; 
 } 
 
 
 void remove_node(pnode *head, int n){
-    printf("\n\n\n start of remove node \n\n\n");
-    printGraph_cmd(head);
     
     pnode curr= *head; // find the source node
 
@@ -119,12 +94,14 @@ void remove_node(pnode *head, int n){
                 return; 
             }
         }
-        printf("4\n");
-        curr = curr->next; 
+        curr = curr->next;
+
+        if(curr->next == NULL){
+            return;
+        } 
     }
 
     printf("Error - the node doesn't exits\n");  
-    printGraph_cmd(head);
 }
 
 

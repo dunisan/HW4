@@ -13,66 +13,66 @@ at a time.
 
 char createEdges(pnode *head){ 
 
-    getchar(); // ignore the whitespace  
-    
     // get the first 'n'
     char node;  
-    node = getchar(); // expecting 'n' 
+    scanf(" %c", &node);
+
     if(node != 'n'){
         perror("invalid input");
         exit(1); 
     }
 
-    // get all of the edges
+    // prepare the creation of the edges
     while(1){
 
-        // get the number of the source node
-        int nodeNumber;  
-        scanf("%d", &nodeNumber);  
-
-        // get the destination node and the weight of edge
-        int destEdge, weight;  // the edge we are going to and it's weight
         
-        char ch[3];   // The given char might be a new command or an EOF or 'n'         
-        int i=0;   
-        int edge[3];   // the source node, destination node, and the weight of edge 
+        int sourceNode;  // get the number of the source node
+        scanf("%d", &sourceNode);  
 
-        edge[0] = nodeNumber; 
 
-        // get all edges of specific node 
+        
+        char command;   // The given char might be a new command or an EOF or 'n'         
+        
+
+        int edge[3];   // edge[0] - source node.. edge[1] - destination node.. edge[2] - weight
+
+        edge[0] = sourceNode; 
+        
+        int i=0; 
+
+    
         while(1){ 
 
-            scanf("%s", ch);  // get the char - it might be EOF or next command of n
+            scanf(" %c", &command);  // get the char - it might be EOF or next command of n
+  
+            if(isCommand(command)){      // return the new command
 
-            // return the new command 
-            if(isCommand(ch)){
-                return ch[0]; 
+                return command; 
             }
-            
-            // go back to get new edges for a node
-            if(strcmp(ch, "n") == 0){ 
+           
+            if(command ==  'n'){  // go back to get new edge for a node
                 break; 
             }
+
+            int destNode, weight;          // get the destination node and the weight of edge
+             
+
             // get a desination node and the weight of the node
             if(i%2==0){
-                destEdge = atoi(ch); // conver num to int
-                edge[1] = destEdge;    
+                destNode = command - '0'; // conver num to int
+                edge[1] = destNode;    
                 i+=1;      
             }
             else{
-                weight = atoi(ch);
+                weight = command - '0';
                 edge[2] = weight; 
                 i-=1; 
 
-                createTheEdges(edge,head); // create the new edge 
-                
+                createNewEdge(edge,head); // create the new edge 
             } 
-
-            
-        } // inner while
-
-    }// extern while 
-} // end of function 
+        }
+    }
+}
 
 
 /*******************
@@ -80,80 +80,54 @@ create a new node
 *******************/
 
 
-void createTheEdges(int arr[3],pnode *head){
+void createNewEdge(int arr[3],pnode *head){
     pnode curr= *head; // find the source node
-    pnode endpoint = *head;  // find the destination node 
-    
-    // source node
-    while(curr != NULL && curr->node_num != arr[0]){
-        if(curr->next==NULL){
-            printf("\n\n Error - supposed to be a node\n"); 
-            exit(1); 
+    pnode endpoint = NULL;  // find the destination node 
+    pnode sourcenode = NULL; 
+
+    while(curr != NULL)
+    {
+
+        if(curr->node_num == arr[0]){
+            sourcenode = curr; 
         }
-        curr = curr->next; //2, 3, 4, 5 
-    }
 
-    
-    // go over to destination node  
-    while(endpoint != NULL && endpoint->node_num != arr[1]){
-        if(endpoint->next == NULL){
-            printf("Error - unvalid destination node\n"); 
-            exit(1); 
+        if(curr->node_num == arr[1]){
+            endpoint = curr; 
         }
-        endpoint = endpoint->next; 
+
+        curr = curr->next; 
     }
 
+    // create the new edge 
+    pedge newedge = (pedge)malloc(sizeof(edge));
+    newedge->next = NULL;
+    newedge->endpoint = endpoint; 
+    newedge->weight = arr[2];
 
-    // if edges = null -> insert the first edge
+    // if no edges insert to beggining
+    if(sourcenode->edges == NULL)
+    {
+        sourcenode->edges = newedge; // insert the new edge 
 
-    if(curr->edges == NULL){
-        //create the new edge 
-        pedge newedge = (pedge)malloc(sizeof(edge));
-        newedge->next = NULL;
-        newedge->endpoint = endpoint; 
-        newedge->weight = arr[2]; 
+    }
 
-        curr->edges = newedge; // insert the new edge 
+    else
+    {
+
+        pedge tempedge = sourcenode->edges;
+
+        // move to the last existing edge
+        while (tempedge->next != NULL)
+        {
+            tempedge = tempedge->next;  
+        }
         
-
-        curr->edges->endpoint = endpoint;  
-        
-        // insert into the distination node an inedge. 
-        // endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
-        // endpoint->inedges = curr->edges; 
-        //     endpoint->inedges->endpoint = curr;
-
-
-
-        return; 
+        // insert the new edge it the end of the edges. 
+        tempedge->next = newedge; 
+    
     }
 
-    // create the new edge
-
-    pedge newedge = (pedge)malloc(sizeof(edge)); 
-    newedge->endpoint = endpoint;  
-    newedge->weight = arr[2]; 
-    newedge->next = NULL; 
-
-    // point the the first edge
-    pedge temp = curr->edges;
-
-    // move to the last edge
-    while (temp->next != NULL) {
-        //curr->edges = curr->edges->next;
-        temp = temp->next;  
-    }
-    
-    // insert the new edge it the end of the edges. 
-    temp->next = newedge; 
-
-    // endpoint->inedges = (pedge)malloc(sizeof(pedge)); 
-    // endpoint->inedges = curr->edges; 
-    // endpoint->inedges->endpoint = curr;
-    
-    printGraph_cmd(head);
-    
- 
     return; 
 }
 
@@ -189,8 +163,6 @@ void removeEdges(pnode *head, int number){
         tempedge = tempedge->next; 
 
     }
-    printNodes(head);
-    printGraph_cmd(head);
     
     return;
     
