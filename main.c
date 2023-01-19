@@ -36,7 +36,7 @@ int main(){
                     
                     scanf("%d %d", &sourceNode, &destinationNode); 
                     int shortPath = shortestPath_cmd(headNode, sourceNode, destinationNode);
-                    printf("Dijsktra shortest path: %d\n", shortPath);
+                    printf("Dijsktra shortest path: %d \n", shortPath);
 
                     scanf(" %c", &command);
                     continue;
