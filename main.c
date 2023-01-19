@@ -1,3 +1,4 @@
+#include "graph.h"
 #include "headers.h"
 
 
@@ -45,10 +46,10 @@ int main(){
                     scanf(" %c", &command);
                     continue;
                 default: 
-                    free(headNode); 
-                    exit(1); 
+                     
+                    break;
             }
     }
-
+    deleteGraph_cmd(&headNode); 
     return 0; 
 }
