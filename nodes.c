@@ -121,9 +121,9 @@ void remove_node(pnode *head, int n){
     else{
         prev->next = curr->next;
     }
-
+    
     free(curr); 
-     
+    curr = NULL; 
             
 }
 

@@ -126,35 +126,43 @@ void createNewEdge(int arr[3],pnode *head){
 void removeEdges(pnode *head, int number){
     pnode curr= *head; // find the source node
 
+   
+    
+    // source node
+    while(curr != NULL)
+    {
+        if(curr->node_num == number){
+            break; 
+        }
+        curr = curr->next;
+    }
+
     if(curr == NULL){
         return; 
     }
-    
-    // source node
-    while(curr->next != NULL && curr->node_num != number){
-        curr = curr->next; 
-    }
 
-    // their isnt the wanted node
-    if(curr->node_num != number){
-        return; 
-    }
 
-    // their is no edges for the node 
-    if(curr->edges == NULL){
-        return;
-    }
-
-    // free all edges of the current node
     pedge tempedge = curr->edges; 
-    curr->edges = NULL;
-    while(tempedge->next != NULL){
-        pedge *temp = &tempedge->next; 
-        tempedge = NULL;
-        free(tempedge); 
-        tempedge = *temp;
 
+    while(tempedge != NULL){
+        free(tempedge);
+        tempedge = tempedge->next; 
     }
+    curr->edges = NULL;
+    // if(curr->edges == NULL){
+    //     return;
+    // }
+
+
+    // // free all edges of the current node
+    // pedge tempedge = curr->edges; 
+    // curr->edges = NULL;
+    // while(tempedge->next != NULL){
+    //     pedge *temp = &tempedge->next; 
+    //     free(tempedge); 
+    //     tempedge = *temp;
+
+    // }
     
     return;
     
@@ -191,12 +199,11 @@ void removeInedges(pnode *head, int n){
             if(tempedge->next != NULL){
 
                 tempnode->edges = tempnode->edges->next;
-                tempedge = NULL; 
                 free(tempedge);
+                tempedge = NULL; 
 
             }
             else{
-                tempnode->edges = NULL; 
                 free(tempnode->edges);
             }
 
