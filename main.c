@@ -46,10 +46,9 @@ int main(){
                     continue;
                 default: 
                     free(headNode); 
-                    exit(1); 
+                    exit(0); 
             }
     }
 
-    printf("\n");
     return 0; 
 }
