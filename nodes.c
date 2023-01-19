@@ -96,6 +96,7 @@ void createNewNode(pnode *head, int numberOfNode){
 void remove_node(pnode *head, int n){
     
     pnode curr= *head; // find the source node
+            
 
     // the node to delete is the first 
     if(curr->node_num == n)
@@ -103,17 +104,21 @@ void remove_node(pnode *head, int n){
         // check if their is a next node
         if(curr->next != NULL)
         {
+
             pnode *temp = &curr->next;
             *head = NULL;
             free(*head);
             *head = *temp;
         }
         else{
-            free(*head); 
+
             *head = NULL; 
+            free(*head); 
+
             return; 
         }
     }
+
 
     // the node is not first 
 
@@ -124,6 +129,7 @@ void remove_node(pnode *head, int n){
             if(curr->next->next != NULL){
                 pnode *temp = &curr->next->next; 
                 curr->next = NULL;
+
                 free(curr->next); 
                 curr->next = *temp; 
 
