@@ -5,20 +5,56 @@
 /***************************************
            INSERT A NEW NODE
 ***************************************/
-void insert_node_cmd(pnode *head){
-
-    int numberOfNode, destinationNode, weight; 
-    scanf("%d %d %d", &numberOfNode, &destinationNode, &weight); 
+char insert_node_cmd(pnode *head){
    
-    int edge[3] = {numberOfNode,destinationNode,weight};  // the source node, destination node, and the weight of edge  
+    int sourceNode;  // get the number of the source node
+    scanf("%d", &sourceNode);  
+
+    removeEdges(head,  sourceNode);
+    createNewNode(head, sourceNode);
+
+    char command;   // The given char might be a new command or an EOF or 'n'         
+    int edge[3];   // edge[0] - source node.. edge[1] - destination node.. edge[2] - weight
+
+    edge[0] = sourceNode; 
+    
+    int i=0; 
+
+    while(1){ 
+
+        scanf(" %c", &command);  // get the char - it might be EOF or next command of n
+
+        if(isCommand(command)){      // return the new command
+
+            return command; 
+        }
+        
+        int destNode, weight;          // get the destination node and the weight of edge
+            
+        // get a desination node and the weight of the node
+        if(i%2==0){
+            destNode = command - '0'; // conver num to int
+            edge[1] = destNode;    
+            i+=1;      
+        }
+        else{
+            weight = command - '0';
+            edge[2] = weight; 
+            i-=1; 
+
+            createNewEdge(edge,head); // create the new edge 
+        } 
+    }
+
+    
+
            
-    removeEdges(head,  numberOfNode);
-    createNewNode(head, numberOfNode);
+    
     
     createNewEdge(edge,head); // create the new edge 
 
             
-    return;
+    return command;
     
 }
 
@@ -67,8 +103,10 @@ void remove_node(pnode *head, int n){
         // check if their is a next node
         if(curr->next != NULL)
         {
+            pnode *temp = &curr->next;
+            *head = NULL;
             free(*head);
-            *head = (*head)->next;
+            *head = *temp;
         }
         else{
             free(*head); 
@@ -78,19 +116,23 @@ void remove_node(pnode *head, int n){
     }
 
     // the node is not first 
-    
+
     while(curr->next != NULL)
     {
         if(curr->next->node_num == n)
         {
             if(curr->next->next != NULL){
+                pnode *temp = &curr->next->next; 
+                curr->next = NULL;
                 free(curr->next); 
-                curr->next = curr->next->next;
+                curr->next = *temp; 
+
                 return;
             }
             else{
+
+                curr->next = NULL;
                 free(curr->next);
-                curr->next = NULL; 
                 return; 
             }
         }

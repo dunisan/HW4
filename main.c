@@ -9,35 +9,40 @@ int main(){
     
     char command; 
     scanf("%c", &command); 
+    int sourceNode, destinationNode; 
 
     while(!feof(stdin)){
-
+       // printf("%c\n", command);
         switch (command) {
                 case 'A': 
                     
-                    //deleteGraph_cmd(pnode* head);
+                    deleteGraph_cmd(&headNode);
                     command = build_graph_cmd(&headNode);
-                    printGraph_cmd(&headNode);
+                    //printGraph_cmd(&headNode);
                     continue;
 
                 case 'B':  
-                    insert_node_cmd(&headNode);
-                    printGraph_cmd(&headNode);
-                    scanf(" %c", &command);
+                    command = insert_node_cmd(&headNode);
+                    //printGraph_cmd(&headNode);
+                   // scanf(" %c", &command);
                     continue;
                 case 'D': 
                     delete_node_cmd(&headNode);
-                    printGraph_cmd(&headNode);
+                 //   printGraph_cmd(&headNode);
                     scanf(" %c", &command);
 
                     continue;
                 case 'S': // exit the while loop
-                    shortestPath_cmd(headNode);
+                    
+                    scanf("%d %d", &sourceNode, &destinationNode); 
+                    int shortPath = shortestPath_cmd(headNode, sourceNode, destinationNode);
+                    printf("Dijsktra shortest path: %d\n", shortPath);
+
                     scanf(" %c", &command);
                     continue;
                 case 'T': 
-                    // TSP_cmd(pnode head);
-                    exit(1);
+                    TSP_cmd(headNode);
+                    scanf(" %c", &command);
                     continue;
                 default: 
                     free(headNode); 

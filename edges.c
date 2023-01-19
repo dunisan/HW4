@@ -1,6 +1,7 @@
 // here we will implement the edges functions. 
 
 #include "headers.h"
+#include <stdio.h>
 
 /**********************************************
 The function parses output and create a node 
@@ -19,17 +20,12 @@ char createEdges(pnode *head){
     }
 
     // prepare the creation of the edges
-    while(1){
-
-        
+    while(1)
+    {
         int sourceNode;  // get the number of the source node
         scanf("%d", &sourceNode);  
 
-
-        
         char command;   // The given char might be a new command or an EOF or 'n'         
-        
-
         int edge[3];   // edge[0] - source node.. edge[1] - destination node.. edge[2] - weight
 
         edge[0] = sourceNode; 
@@ -52,7 +48,6 @@ char createEdges(pnode *head){
 
             int destNode, weight;          // get the destination node and the weight of edge
              
-
             // get a desination node and the weight of the node
             if(i%2==0){
                 destNode = command - '0'; // conver num to int
@@ -154,9 +149,10 @@ void removeEdges(pnode *head, int number){
     pedge tempedge = curr->edges; 
     curr->edges = NULL;
     while(tempedge->next != NULL){
-         
+        pedge *temp = &tempedge->next; 
+        tempedge = NULL;
         free(tempedge); 
-        tempedge = tempedge->next; 
+        tempedge = *temp;
 
     }
     
@@ -192,8 +188,18 @@ void removeInedges(pnode *head, int n){
 
         // if the first edge goes to n 
         if(tempedge->endpoint->node_num == n){
-            tempnode->edges = tempnode->edges->next;
-            free(tempedge);
+            if(tempedge->next != NULL){
+
+                tempnode->edges = tempnode->edges->next;
+                tempedge = NULL; 
+                free(tempedge);
+
+            }
+            else{
+                tempnode->edges = NULL; 
+                free(tempnode->edges);
+            }
+
             continue; // to the next node; 
         }
 
@@ -208,7 +214,8 @@ void removeInedges(pnode *head, int n){
                 else {
                     tempedge->next = NULL; 
                 }
-
+                
+                
                 free(tempedge->next);
                 continue; // found the edge - no need to go the next edge  
             }
@@ -218,10 +225,7 @@ void removeInedges(pnode *head, int n){
 
         tempnode = tempnode->next; 
 
-        // clear the last
     }
-
-    printf("pathed over all nodes and edges\n"); 
 
 
 }

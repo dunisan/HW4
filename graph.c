@@ -106,9 +106,10 @@ void delete_node_cmd(pnode *head){  // delete a node.
     scanf("%d", &nodeNumber);
 
     // remove the inedges, edges and node
-
     removeInedges(head, nodeNumber);
+
     removeEdges(head, nodeNumber);
+
     remove_node(head, nodeNumber); 
 
     return;
